@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from 'src/app/models/usuario';
+import { NgForm } from '@angular/forms';
+import * as sha256 from 'js-sha256';
+import { Router } from '@angular/router';
+import { LoadingController, ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -9,18 +14,50 @@ import { Usuario } from 'src/app/models/usuario';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private usuarioService: UsuarioService) { }
+  loaderToShow: any;
 
-  ngOnInit() {
-    this.getUsuarios();
+  constructor(private usuarioService: UsuarioService, private router: Router,
+    public loadingController: LoadingController, public toastController: ToastController) { }
+
+  ngOnInit() { }
+
+  ingresar(usuarioForm: NgForm) {
+    if (usuarioForm.valid) {
+      var mail = usuarioForm.value.email;
+      var contrasena = sha256.sha256(usuarioForm.value.password);
+      var datosValidos;
+      this.showLoader();
+      this.usuarioService.login(mail, contrasena)
+        .subscribe(res => {
+          this.loadingController.dismiss();
+          datosValidos = res;
+          if (datosValidos) {
+            this.router.navigate(["/home"]);
+            localStorage.setItem('emailUsuario', mail);
+          }
+          else
+            this.loginInvalido();
+
+        });
+    }
   }
 
-  getUsuarios(){
-    this.usuarioService.getUsuarios()
-      .subscribe(res => {
-        this.usuarioService.usuarios = res as Usuario[];
-        console.log(res);
-      })
+  showLoader() {
+    this.loaderToShow = this.loadingController.create({
+      message: 'Iniciando sesión'
+    }).then((res) => {
+      res.present();
+    });
+  }
+
+  async loginInvalido() {
+    const toast = await this.toastController.create({
+      header:"Error al iniciar sesión.",
+      message: 'Por favor verifique los datos ingresados.',
+      duration: 4000,
+      color:"danger"
+    });
+    toast.present();
   }
 
 }

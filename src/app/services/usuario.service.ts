@@ -8,12 +8,19 @@ import { Usuario } from '../models/usuario';
 export class UsuarioService {
 
   usuarios: Usuario[];
-  readonly URL_API = 'http://localhost:9090/Usuario';
+  readonly URL_API = 'https://vdg-back.herokuapp.com/Usuario';
 
   constructor(private http: HttpClient) { }
 
-  getUsuarios(){
+  getUsuarios() {
     return this.http.get(this.URL_API);
+  }
+
+  login(email: String, contrasena: String) {
+    const loginInfo = {};
+    loginInfo["email"] = email;
+    loginInfo["contrasena"] = contrasena;
+    return this.http.post(this.URL_API + "/login", loginInfo);
   }
 
 }

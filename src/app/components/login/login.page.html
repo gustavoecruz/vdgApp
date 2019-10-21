@@ -5,14 +5,21 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item>
-    <ion-label position="floating">Email</ion-label>
-    <ion-input type="text" name="email" ></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password" name="password" ></ion-input>
-  </ion-item>
-  <br>
-  <ion-button expand="block" >Ingresar</ion-button>
+  <form #usuarioForm="ngForm" (ngSubmit)="ingresar(usuarioForm)">
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" ngModel required>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" name="password" ngModel required></ion-input>
+    </ion-item>
+    <br>
+    <ion-button size="large" type="submit" [disabled]="usuarioForm.invalid" expand="block">Ingresar</ion-button>
+    <br>
+    <br>
+    <ion-button expand="full" fill="clear">Olvidé mi contraseña</ion-button>
+  </form>
+
 </ion-content>
