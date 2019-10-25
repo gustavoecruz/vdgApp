@@ -20,7 +20,7 @@ export class UsuarioService {
     const loginInfo = {};
     loginInfo["email"] = email;
     loginInfo["contrasena"] = contrasena;
-    return this.http.post(this.URL_API + "/login", loginInfo);
+    return this.http.post(this.URL_API + "/loginApp", loginInfo);
   }
 
 }

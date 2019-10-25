@@ -25,19 +25,21 @@ export class LoginPage implements OnInit {
     if (usuarioForm.valid) {
       var mail = usuarioForm.value.email;
       var contrasena = sha256.sha256(usuarioForm.value.password);
-      var datosValidos;
       this.showLoader();
       this.usuarioService.login(mail, contrasena)
-        .subscribe(res => {
+        .subscribe(rolUsuario => {
           this.loadingController.dismiss();
-          datosValidos = res;
-          if (datosValidos) {
-            this.router.navigate(["/home"]);
+          console.log("DATOS ROL: " + rolUsuario);
+          if (rolUsuario == "VICTIMARIO") {
+            console.log("SITIO EN CONSTRUCCION");
+            this.loginInvalido();
+          }
+          else if (rolUsuario == "DAMNIFICADA") {
+            this.router.navigate(["/home-damnificada"]);
             localStorage.setItem('emailUsuario', mail);
           }
           else
             this.loginInvalido();
-
         });
     }
   }
@@ -52,10 +54,10 @@ export class LoginPage implements OnInit {
 
   async loginInvalido() {
     const toast = await this.toastController.create({
-      header:"Error al iniciar sesión.",
+      header: "Error al iniciar sesión.",
       message: 'Por favor verifique los datos ingresados.',
       duration: 4000,
-      color:"danger"
+      color: "danger"
     });
     toast.present();
   }
