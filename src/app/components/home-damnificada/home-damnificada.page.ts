@@ -4,14 +4,14 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { UbicacionService } from 'src/app/services/ubicacion.service';
 import { Router } from '@angular/router';
 
+
+
 @Component({
   selector: 'app-home-damnificada',
   templateUrl: './home-damnificada.page.html',
   styleUrls: ['./home-damnificada.page.scss'],
 })
 export class HomeDamnificadaPage implements OnInit {
-
-  intervalo;
 
   lat: number;
   lon: number;
@@ -22,18 +22,13 @@ export class HomeDamnificadaPage implements OnInit {
   constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService, private router: Router) { }
 
   ngOnInit() {
-    clearInterval(this.intervalo);
-    let thisjr = this;
-    this.intervalo = setInterval(function () {
-      thisjr.controlarPermitirLocalizacion(thisjr);
-    }, 6000);
     this.getGeolocation();
     this.watchGeolocation();
   }
 
-  controlarPermitirLocalizacion(thisjr){
+  localizacionSegundoPlano() {
 
-    
+
   }
 
   getGeolocation() {
@@ -42,16 +37,16 @@ export class HomeDamnificadaPage implements OnInit {
       this.lat = geoposition.coords.latitude;
       this.lon = geoposition.coords.longitude;
       console.log("TENGO LAS COORD");
-      console.log("LAT "+this.lat);
+      console.log("LAT " + this.lat);
     });
   }
 
   watchGeolocation() {
-    let watch = this.geolocation.watchPosition({enableHighAccuracy: true});
-    watch.subscribe((data) => { 
+    let watch = this.geolocation.watchPosition({ enableHighAccuracy: true });
+    watch.subscribe((data) => {
       this.lat2 = data.coords.latitude;
       this.lon2 = data.coords.longitude;
-      this.distancia = data.coords.accuracy; 
+      this.distancia = data.coords.accuracy;
     });
   }
 
@@ -60,10 +55,10 @@ export class HomeDamnificadaPage implements OnInit {
     let c = Math.cos;
     let a = 0.5 - c((lat1 - lat2) * p) / 2 + c(lat2 * p) * c((lat1) * p) * (1 - c(((lon1 - lon2) * p))) / 2;
     let dis = (12742 * Math.asin(Math.sqrt(a)));
-    return Math.trunc(dis*1000);
+    return Math.trunc(dis * 1000);
   }
 
-  localizarVictimario(){
+  localizarVictimario() {
     this.router.navigate(["/restricciones-localizables"]);
   }
 }

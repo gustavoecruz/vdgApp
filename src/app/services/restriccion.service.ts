@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RestriccionService {
 
-  readonly URL_API = "http://localhost:9090/RestriccionDTO";
+  readonly URL_API = "https://vdg-back.herokuapp.com/RestriccionDTO";
 
   constructor(private http:HttpClient) { }
 

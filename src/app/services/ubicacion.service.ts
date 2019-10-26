@@ -7,7 +7,7 @@ import { UbicacionDTO } from '../models/ubicacion-dto';
 })
 export class UbicacionService {
 
-  readonly URL_API = 'http://localhost:9090/Ubicacion';
+  readonly URL_API = 'https://vdg-back.herokuapp.com/Ubicacion';
 
   constructor(private http: HttpClient) { }
 
