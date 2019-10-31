@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>vdgAPP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-button expand="full" shape="round" (click)="localizarVictimario()">
+    <ion-icon slot="start" name="locate"></ion-icon>Localizar victimario
+  </ion-button>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button color="danger">
+      <ion-icon name="alert"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div>
+    <p>Latitud: {{lat}}</p>
+    <p>Longitud: {{lon}}</p>
+    <p>Latitud2: {{lat2}}</p>
+    <p>Longitud2: {{lon2}}</p>
+    <p>Distancia: {{distancia}}</p>
+  </div>
+
+</ion-content>
