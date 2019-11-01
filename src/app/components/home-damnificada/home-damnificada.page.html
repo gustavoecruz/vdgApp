@@ -1,12 +1,19 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>vdgAPP</ion-title>
+    <ion-menu-button slot="start" color="primary" menu="first"></ion-menu-button>
+    <ion-title>
+      VdgApp
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-button expand="full" shape="round" (click)="localizarVictimario()">
     <ion-icon slot="start" name="locate"></ion-icon>Localizar victimario
+  </ion-button>
+
+  <ion-button expand="full" shape="round" routerLink="/gestionar-contactos">
+    <ion-icon slot="start" name="contacts"></ion-icon>Gestionar contactos
   </ion-button>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
@@ -22,5 +29,23 @@
     <p>Longitud2: {{lon2}}</p>
     <p>Distancia: {{distancia}}</p>
   </div>
-
 </ion-content>
+
+<ion-menu side="start" menuId="first" contentId="principal">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>VdgApp</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle *ngFor="let item of lista">
+        <ion-item routerLink={{item.url}}>
+          <ion-icon slot="start" name={{item.icon}}></ion-icon>
+          <ion-label>{{item.titulo}}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="principal"></ion-router-outlet>

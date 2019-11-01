@@ -5,7 +5,6 @@ import { UbicacionService } from 'src/app/services/ubicacion.service';
 import { Router } from '@angular/router';
 
 
-
 @Component({
   selector: 'app-home-damnificada',
   templateUrl: './home-damnificada.page.html',
@@ -19,7 +18,21 @@ export class HomeDamnificadaPage implements OnInit {
   lon2: number;
   distancia: number;
 
-  constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService, private router: Router) { }
+  lista= [
+    {
+      titulo:'Localizar victimario',
+      icon: 'locate',
+      url: '/restricciones-localizables'
+    },
+    {
+      titulo:'Gestionar contactos',
+      icon: 'contacts',
+      url: '/gestionar-contactos'
+    }
+  ];
+
+  constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getGeolocation();
@@ -27,8 +40,6 @@ export class HomeDamnificadaPage implements OnInit {
   }
 
   localizacionSegundoPlano() {
-
-
   }
 
   getGeolocation() {
@@ -59,6 +70,8 @@ export class HomeDamnificadaPage implements OnInit {
   }
 
   localizarVictimario() {
+    console.log("fea");
     this.router.navigate(["/restricciones-localizables"]);
   }
+
 }

@@ -5,10 +5,11 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'login', loadChildren: './components/login/login.module#LoginPageModule' },
-  { path: 'home-damnificada', loadChildren: './components/home-damnificada/home-damnificada.module#HomeDamnificadaPageModule' },  { path: 'localizacion-victimario', loadChildren: './localizacion-victimario/localizacion-victimario.module#LocalizacionVictimarioPageModule' },
+  { path: 'home-damnificada', loadChildren: './components/home-damnificada/home-damnificada.module#HomeDamnificadaPageModule' },
+  { path: 'localizacion-victimario', loadChildren: './localizacion-victimario/localizacion-victimario.module#LocalizacionVictimarioPageModule' },
   { path: 'restricciones-localizables', loadChildren: './components/restricciones-localizables/restricciones-localizables.module#RestriccionesLocalizablesPageModule' },
-
-
+  { path: 'gestionar-contactos', loadChildren: './components/gestionar-contactos/gestionar-contactos.module#GestionarContactosPageModule' },
+  { path: 'agregar-contacto', loadChildren: './components/agregar-contacto/agregar-contacto.module#AgregarContactoPageModule' },
 
 ];
 
