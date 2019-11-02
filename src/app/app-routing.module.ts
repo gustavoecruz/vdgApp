@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'localizacion-victimario', loadChildren: './localizacion-victimario/localizacion-victimario.module#LocalizacionVictimarioPageModule' },
   { path: 'restricciones-localizables', loadChildren: './components/restricciones-localizables/restricciones-localizables.module#RestriccionesLocalizablesPageModule' },
   { path: 'gestionar-contactos', loadChildren: './components/gestionar-contactos/gestionar-contactos.module#GestionarContactosPageModule' },
-  { path: 'agregar-contacto', loadChildren: './components/agregar-contacto/agregar-contacto.module#AgregarContactoPageModule' },
+  { path: 'agregar-contacto', loadChildren: './components/agregar-contacto/agregar-contacto.module#AgregarContactoPageModule' },  { path: 'home-victimario', loadChildren: './components/home-victimario/home-victimario.module#HomeVictimarioPageModule' },
+
 
 ];
 

@@ -31,8 +31,8 @@ export class LoginPage implements OnInit {
           this.loadingController.dismiss();
           console.log("DATOS ROL: " + rolUsuario);
           if (rolUsuario == "VICTIMARIO") {
-            console.log("SITIO EN CONSTRUCCION");
-            this.loginInvalido();
+            this.router.navigate(["/home-victimario"]);
+            localStorage.setItem('emailUsuario', mail);
           }
           else if (rolUsuario == "DAMNIFICADA") {
             this.router.navigate(["/home-damnificada"]);
