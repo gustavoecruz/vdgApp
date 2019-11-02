@@ -4,6 +4,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <ion-list *ngFor="let pruebaDeVida of pruebasDeVida" (click)=responderPruebaDeVida()>
+    <ion-item>
+      <ion-icon name="camera"></ion-icon>
+      {{pruebaDeVida.descripcion}}
+    </ion-item>
+  </ion-list>
+
+  <ion-text *ngIf="false">
+    <h3>No hay solicitudes de prueba de vida.</h3>
+  </ion-text>
 
 </ion-content>
