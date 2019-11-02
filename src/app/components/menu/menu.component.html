@@ -1,2 +1,18 @@
-<p>hola</p>
-
+<ion-menu side="start" menuId="first" contentId="principal">
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-title>VdgApp</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-menu-toggle *ngFor="let item of lista">
+                <ion-item routerLink={{item.url}}>
+                    <ion-icon slot="start" name={{item.icon}}></ion-icon>
+                    <ion-label>{{item.titulo}}</ion-label>
+                </ion-item>
+            </ion-menu-toggle>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-router-outlet id="principal"></ion-router-outlet>

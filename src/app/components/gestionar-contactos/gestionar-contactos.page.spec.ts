@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GestionarContactosPage } from './gestionar-contactos.page';
+import { PruebaComponent } from '../prueba/prueba.component';
 
 describe('GestionarContactosPage', () => {
   let component: GestionarContactosPage;

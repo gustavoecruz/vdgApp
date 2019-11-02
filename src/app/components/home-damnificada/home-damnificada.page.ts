@@ -18,19 +18,6 @@ export class HomeDamnificadaPage implements OnInit {
   lon2: number;
   distancia: number;
 
-  lista= [
-    {
-      titulo:'Localizar victimario',
-      icon: 'locate',
-      url: '/restricciones-localizables'
-    },
-    {
-      titulo:'Gestionar contactos',
-      icon: 'contacts',
-      url: '/gestionar-contactos'
-    }
-  ];
-
   constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
     private router: Router) { }
 
