@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PruebaDeVidaService {
 
-  readonly URL_API = "http://localhost:9090/PruebaDeVida";
+  readonly URL_API = "https://vdg-back.herokuapp.com/PruebaDeVida";
 
   constructor(private http: HttpClient) { }
 
@@ -14,7 +14,5 @@ export class PruebaDeVidaService {
     return this.http.get(this.URL_API + "/getByMail/" +
       email);
   }
-
-  
 
 }

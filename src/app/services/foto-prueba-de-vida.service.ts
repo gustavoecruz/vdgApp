@@ -6,8 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FotoPruebaDeVidaService {
 
-  readonly URL_API = "https
-  ://vdg-back.herokuapp.com/FotoPruebaDeVida";
+  readonly URL_API = "https://vdg-back.herokuapp.com/FotoPruebaDeVida";
 
   constructor(private http: HttpClient) { }
 
