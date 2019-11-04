@@ -5,6 +5,7 @@ import { LoadingController } from '@ionic/angular';
 import { Contacto } from 'src/app/models/contacto';
 import { Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
+import { ContactoService } from 'src/app/services/contacto.service';
 
 @Component({
   selector: 'app-agregar-contacto',
@@ -16,17 +17,27 @@ export class AgregarContactoPage implements OnInit {
   contacto: Contacto = new Contacto;
 
   constructor(private toastController: ToastController, public loadingController: LoadingController,
-    private router: Router, public pickerCtrl: PickerController) { }
+    private router: Router, public pickerCtrl: PickerController, private contactoService: ContactoService) { }
 
   ngOnInit() {
   }
 
   agregarContacto(contactoForm: NgForm) {
+    this.contacto.apellido = contactoForm.value.apellido;
+    this.contacto.nombre = contactoForm.value.nombre;
+    this.contacto.email = contactoForm.value.email;
+    this.contacto.telefono = contactoForm.value.telefono;
+    this.contacto.relacion = contactoForm.value.relacion;
+    this.contacto.idDamnificada = 2;
     console.log(this.contacto);
     console.log(contactoForm.value);
-    this.presentToast('Contacto agregado correctamente.');
-    contactoForm.reset();
-    this.router.navigate(["/gestionar-contactos"]);
+    this.contactoService.postContacto(this.contacto)
+      .subscribe(res => {
+        this.presentToast('Contacto agregado correctamente.');
+        contactoForm.reset();
+        this.router.navigate(["/gestionar-contactos"]);
+        this.contacto = new Contacto;
+      });
   }
 
   //ABRE TOIAST CON MENSAJE

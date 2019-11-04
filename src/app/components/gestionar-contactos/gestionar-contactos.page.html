@@ -10,8 +10,9 @@
 <ion-content>
 
   <ion-list >
-    <ion-item *ngFor="let contacto of contactos" (click)="abrirContacto(contacto)">
-      <ion-label>{{contacto}}</ion-label>
+    <ion-item *ngFor="let contacto of contactos">
+      <ion-label>{{contacto.apellido}}, {{contacto.nombre}}</ion-label>
+      <ion-icon name="trash" (click)="eliminarContacto(contacto)"></ion-icon>
     </ion-item>
   </ion-list>
 
