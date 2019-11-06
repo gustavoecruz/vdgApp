@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestriccionDTO } from 'src/app/models/restriccion-dto';
+import { Contacto } from 'src/app/models/contacto';
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +8,16 @@ import { RestriccionDTO } from 'src/app/models/restriccion-dto';
 export class ComunicacionService {
 
   restriccionDTO: RestriccionDTO;
+  contacto: Contacto;
+
+  constructor() { }
 
   enviarRestriccion(restriccion: RestriccionDTO) {
     this.restriccionDTO = restriccion;
   }
 
-  constructor() { }
+  enviarContacto(contacto: Contacto) {
+    this.contacto = contacto;
+  }
+
 }

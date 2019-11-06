@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { Contacto } from 'src/app/models/contacto';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { Storage } from '@ionic/storage';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { ChangeDetectorRef } from '@angular/core';
+import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
 
 @Component({
   selector: 'app-gestionar-contactos',
@@ -17,7 +18,8 @@ export class GestionarContactosPage implements OnInit {
   loaderToShow: any;
 
   constructor(private router: Router, private contactoService: ContactoService,
-    private storage: Storage, public loadingController: LoadingController) {
+    private storage: Storage, public loadingController: LoadingController,
+    private comunicacionService: ComunicacionService, private alertController: AlertController) {
     }
 
   ngOnInit() {
@@ -35,7 +37,7 @@ export class GestionarContactosPage implements OnInit {
       .subscribe(res => {
         this.loadingController.dismiss();
         this.contactos = res as Contacto[];
-      });  
+      });
     });
   }
 
@@ -48,6 +50,7 @@ export class GestionarContactosPage implements OnInit {
     })
   }
 
+  //ABRE CUADRO DE ESPERA
   async showLoader(mensaje: string) {
     const loading = await this.loadingController.create({
       spinner: "lines-small",
@@ -56,6 +59,45 @@ export class GestionarContactosPage implements OnInit {
       cssClass: 'custom-class custom-loading'
     });
     return await loading.present();
+  }
+
+  abrirContacto(contacto: Contacto){
+    this.comunicacionService.enviarContacto(contacto);
+  }
+
+  agregarContacto(){
+    this.comunicacionService.contacto = new Contacto;
+    this.router.navigate(["/agregar-contacto"]);
+  }
+
+  async presentAlertConfirm(contacto: Contacto) {
+    const alert = await this.alertController.create({
+      header: '¿Qué operación desea realizar?',
+      buttons: [
+        {
+          text: 'Editar',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.comunicacionService.enviarContacto(contacto);
+            this.router.navigate(["/agregar-contacto"]);
+          }
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.eliminarContacto(contacto);
+          }
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+          }
+        }
+
+      ]
+    });
+
+    await alert.present();
   }
 
 }

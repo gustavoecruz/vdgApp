@@ -3,6 +3,9 @@ import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { UbicacionService } from 'src/app/services/ubicacion.service';
 import { Router } from '@angular/router';
+import { BotonAntipanicoService } from 'src/app/services/boton-antipanico.service';
+import { Storage } from '@ionic/storage';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -19,7 +22,9 @@ export class HomeDamnificadaPage implements OnInit {
   distancia: number;
 
   constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
-    private router: Router) { }
+    private router: Router, private botonAntipanicoService: BotonAntipanicoService,
+    private storage: Storage, public loadingController: LoadingController,
+    private toastController: ToastController) { }
 
   ngOnInit() {
     this.getGeolocation();
@@ -60,5 +65,37 @@ export class HomeDamnificadaPage implements OnInit {
     console.log("fea");
     this.router.navigate(["/restricciones-localizables"]);
   }
+
+  alertar() {
+    this.showLoader("Enviando alerta a contactos...");
+    this.storage.get('persona').then((email) => {
+      this.botonAntipanicoService.alertar(email)
+        .subscribe(res => {
+          this.loadingController.dismiss();
+          this.presentToast('Alerta enviada a contactos correctamente.');
+        });
+    });
+  }
+
+  //ABRE CUADRO DE CARGA
+  async showLoader(mensaje: string) {
+    const loading = await this.loadingController.create({
+      spinner: "lines-small",
+      message: mensaje,
+      backdropDismiss: false,
+      cssClass: 'custom-class custom-loading'
+    });
+    return await loading.present();
+  }
+
+  //ABRE TOIAST CON MENSAJE
+  async presentToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000
+    });
+    toast.present();
+  }
+
 
 }

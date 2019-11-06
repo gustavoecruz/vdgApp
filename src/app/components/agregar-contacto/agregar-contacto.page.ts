@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { Storage } from '@ionic/storage';
+import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
 
 @Component({
   selector: 'app-agregar-contacto',
@@ -20,9 +21,10 @@ export class AgregarContactoPage implements OnInit {
 
   constructor(private toastController: ToastController, public loadingController: LoadingController,
     private router: Router, public pickerCtrl: PickerController, private contactoService: ContactoService,
-    private storage: Storage) { }
+    private storage: Storage, private comunicacionService: ComunicacionService) { }
 
   ngOnInit() {
+    this.contacto = this.comunicacionService.contacto;
   }
 
   agregarContacto(contactoForm: NgForm) {
@@ -44,6 +46,7 @@ export class AgregarContactoPage implements OnInit {
           contactoForm.reset();
           this.router.navigate(["/gestionar-contactos"]);
           this.contacto = new Contacto;
+          this.comunicacionService.contacto = new Contacto;
         });
     }
   }
@@ -102,6 +105,7 @@ export class AgregarContactoPage implements OnInit {
     });
   }
 
+  //ABRE CUADRO DE ESPERA
   showLoader(mensaje: string) {
     this.loaderToShow = this.loadingController.create({
       message: mensaje
