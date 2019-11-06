@@ -11,8 +11,8 @@ export class ContactoService {
 
   constructor(private http: HttpClient) { }
 
-  getContacto(idDamnifacada: number){
-    return this.http.get(this.URL_API + '/' + idDamnifacada);
+  getContacto(emailDamnificada: string){
+    return this.http.get(this.URL_API + '/' + emailDamnificada);
   }
 
   postContacto(contacto: Contacto){

@@ -6,6 +6,7 @@ import { Contacto } from 'src/app/models/contacto';
 import { Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
 import { ContactoService } from 'src/app/services/contacto.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-agregar-contacto',
@@ -15,29 +16,36 @@ import { ContactoService } from 'src/app/services/contacto.service';
 export class AgregarContactoPage implements OnInit {
 
   contacto: Contacto = new Contacto;
+  loaderToShow: any;
 
   constructor(private toastController: ToastController, public loadingController: LoadingController,
-    private router: Router, public pickerCtrl: PickerController, private contactoService: ContactoService) { }
+    private router: Router, public pickerCtrl: PickerController, private contactoService: ContactoService,
+    private storage: Storage) { }
 
   ngOnInit() {
   }
 
   agregarContacto(contactoForm: NgForm) {
-    this.contacto.apellido = contactoForm.value.apellido;
-    this.contacto.nombre = contactoForm.value.nombre;
-    this.contacto.email = contactoForm.value.email;
-    this.contacto.telefono = contactoForm.value.telefono;
-    this.contacto.relacion = contactoForm.value.relacion;
-    this.contacto.idDamnificada = 2;
-    console.log(this.contacto);
-    console.log(contactoForm.value);
-    this.contactoService.postContacto(this.contacto)
-      .subscribe(res => {
-        this.presentToast('Contacto agregado correctamente.');
-        contactoForm.reset();
-        this.router.navigate(["/gestionar-contactos"]);
-        this.contacto = new Contacto;
-      });
+    if(contactoForm.invalid){
+      this.presentToast('Falta completar campos');
+    }
+    else{
+      this.showLoader("Agregando contacto...");
+      this.contacto.apellido = contactoForm.value.apellido;
+      this.contacto.nombre = contactoForm.value.nombre;
+      this.contacto.email = contactoForm.value.email;
+      this.contacto.telefono = contactoForm.value.telefono;
+      this.contacto.relacion = contactoForm.value.relacion;
+      this.contacto.idDamnificada = 2;
+      this.contactoService.postContacto(this.contacto)
+        .subscribe(res => {
+          this.loadingController.dismiss();
+          this.presentToast('Contacto agregado correctamente.');
+          contactoForm.reset();
+          this.router.navigate(["/gestionar-contactos"]);
+          this.contacto = new Contacto;
+        });
+    }
   }
 
   //ABRE TOIAST CON MENSAJE
@@ -61,27 +69,27 @@ export class AgregarContactoPage implements OnInit {
           options: [
             {
               text: 'Padre/Madre',
-              value: "padre/madre"
+              value: 1
             },
             {
               text: 'Hermano/a',
-              value: 3
+              value: 2
             },
             {
               text: 'Otro familiar',
-              value: 4
+              value: 3
             },
             {
               text: 'Amigo/a',
-              value: 5
+              value: 4
             },
             {
               text: 'Compañero de trabajo/estudio',
-              value: 6
+              value: 5
             },
             {
               text: 'Otro',
-              value: 7
+              value: 6
             }
           ]
         }
@@ -91,6 +99,14 @@ export class AgregarContactoPage implements OnInit {
     picker.onDidDismiss().then(async data => {
       let col = await picker.getColumn('relacion');
       this.contacto.relacion = col.options[col.selectedIndex].text;
+    });
+  }
+
+  showLoader(mensaje: string) {
+    this.loaderToShow = this.loadingController.create({
+      message: mensaje
+    }).then((res) => {
+      res.present();
     });
   }
 

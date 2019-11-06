@@ -10,23 +10,23 @@
 <ion-content padding>
   <form #contactoForm="ngForm" (ngSubmit)="agregarContacto(contactoForm)">
     <ion-item>
-      <ion-label position="floating">Apellido</ion-label>
+      <ion-label position="floating">Apellido*</ion-label>
       <ion-input type="text" name="apellido" [(ngModel)]="contacto.apellido" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Nombres</ion-label>
+      <ion-label position="floating">Nombres*</ion-label>
       <ion-input type="text" name="nombre" [(ngModel)]="contacto.nombre" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-label position="floating">Correo Electrónico*</ion-label>
       <ion-input type="email" name="email" [(ngModel)]="contacto.email" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Teléfono</ion-label>
-      <ion-input type="number" name="telefono" [(ngModel)]="contacto.telefono" required></ion-input>
+      <ion-input type="number" name="telefono" [(ngModel)]="contacto.telefono"></ion-input>
     </ion-item>
     <ion-item (click)="openPicker()">
-      <ion-label position="floating">Relación</ion-label>
+      <ion-label position="floating">Relación*</ion-label>
       <ion-input type="text" name="relacion" [(ngModel)]="contacto.relacion" required></ion-input>
     </ion-item>
     <br>

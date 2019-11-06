@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import * as sha256 from 'js-sha256';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,8 @@ export class LoginPage implements OnInit {
   loaderToShow: any;
 
   constructor(private usuarioService: UsuarioService, private router: Router,
-    public loadingController: LoadingController, public toastController: ToastController) { }
+    public loadingController: LoadingController, public toastController: ToastController,
+    private storage: Storage) { }
 
   ngOnInit() { }
 
@@ -30,6 +31,7 @@ export class LoginPage implements OnInit {
         .subscribe(rolUsuario => {
           this.loadingController.dismiss();
           console.log("DATOS ROL: " + rolUsuario);
+          this.setUsuario(mail);
           if (rolUsuario == "VICTIMARIO") {
             this.router.navigate(["/home-victimario"]);
             localStorage.setItem('emailUsuario', mail);
@@ -60,6 +62,10 @@ export class LoginPage implements OnInit {
       color: "danger"
     });
     toast.present();
+  }
+
+  setUsuario(email: string){
+    this.storage.set('persona', email);
   }
 
 }
