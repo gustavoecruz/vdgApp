@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { BotonAntipanicoService } from 'src/app/services/boton-antipanico.service';
 import { Storage } from '@ionic/storage';
 import { LoadingController, ToastController } from '@ionic/angular';
+import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
+import { BotonAntipanico } from 'src/app/models/boton-antipanico';
 
 
 @Component({
@@ -24,7 +26,7 @@ export class HomeDamnificadaPage implements OnInit {
   constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
     private router: Router, private botonAntipanicoService: BotonAntipanicoService,
     private storage: Storage, public loadingController: LoadingController,
-    private toastController: ToastController) { }
+    private toastController: ToastController, private comunicacion: ComunicacionService) { }
 
   ngOnInit() {
     this.getGeolocation();
@@ -62,14 +64,19 @@ export class HomeDamnificadaPage implements OnInit {
   }
 
   localizarVictimario() {
-    console.log("fea");
     this.router.navigate(["/restricciones-localizables"]);
   }
 
   alertar() {
     this.showLoader("Enviando alerta a contactos...");
+    //GENERO EL OBJETO A GUARDAR DE BOTON ANTIPANICO
+    let botonAntipanico: BotonAntipanico = new BotonAntipanico;
+
+    botonAntipanico.latitud = this.lat;
+    botonAntipanico.longitud = this.lon;
+
     this.storage.get('persona').then((email) => {
-      this.botonAntipanicoService.alertar(email)
+      this.botonAntipanicoService.alertar(botonAntipanico, email)
         .subscribe(res => {
           this.loadingController.dismiss();
           this.presentToast('Alerta enviada a contactos correctamente.');

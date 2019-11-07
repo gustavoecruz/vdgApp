@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BotonAntipanico } from '../models/boton-antipanico';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class BotonAntipanicoService {
 
   constructor(private http: HttpClient) { }
 
-  alertar(emailDamnificada: string){
-    return this.http.get(this.URL_API + '/' + emailDamnificada);
+  alertar(botonAntipanico: BotonAntipanico, email: string){
+    return this.http.post(this.URL_API + "/" + email, botonAntipanico);
   }
 
 }
