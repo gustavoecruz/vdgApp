@@ -7,7 +7,7 @@ import { BotonAntipanico } from '../models/boton-antipanico';
 })
 export class BotonAntipanicoService {
 
-  readonly URL_API = 'http://localhost:9090/BotonAntipanico';
+  readonly URL_API = 'https://vdg-back.herokuapp.com/BotonAntipanico';
 
   constructor(private http: HttpClient) { }
 

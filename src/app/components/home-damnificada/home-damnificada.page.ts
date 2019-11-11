@@ -5,7 +5,7 @@ import { UbicacionService } from 'src/app/services/ubicacion.service';
 import { Router } from '@angular/router';
 import { BotonAntipanicoService } from 'src/app/services/boton-antipanico.service';
 import { Storage } from '@ionic/storage';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
 import { BotonAntipanico } from 'src/app/models/boton-antipanico';
 
@@ -26,7 +26,8 @@ export class HomeDamnificadaPage implements OnInit {
   constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
     private router: Router, private botonAntipanicoService: BotonAntipanicoService,
     private storage: Storage, public loadingController: LoadingController,
-    private toastController: ToastController, private comunicacion: ComunicacionService) { }
+    private toastController: ToastController, private comunicacion: ComunicacionService,
+    private alertController: AlertController) { }
 
   ngOnInit() {
     this.getGeolocation();
@@ -102,6 +103,30 @@ export class HomeDamnificadaPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  //CONFIRMACION DE BOTON ANTIPANICO
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: '¿Dese activar el botón antipánico?',
+      buttons: [
+        {
+          text: 'Aceptar',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.alertar();
+          }
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+          }
+        }
+
+      ]
+    });
+
+    await alert.present();
   }
 
 

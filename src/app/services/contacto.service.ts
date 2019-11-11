@@ -7,7 +7,7 @@ import { Contacto } from '../models/contacto';
 })
 export class ContactoService {
 
-  readonly URL_API = 'http://localhost:9090/Contacto';
+  readonly URL_API = 'https://vdg-back.herokuapp.com/Contacto';
 
   constructor(private http: HttpClient) { }
 
