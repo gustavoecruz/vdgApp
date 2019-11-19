@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PruebaDeVida } from 'src/app/models/prueba-de-vida';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { PruebaDeVidaService } from 'src/app/services/prueba-de-vida.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FotoPruebaDeVidaService } from 'src/app/services/foto-prueba-de-vida.service';
@@ -18,9 +18,19 @@ export class HomeVictimarioPage implements OnInit {
   fotoSacada: any;
   pruebaSeleccionada: PruebaDeVida;
 
+  //Back button
+  subscribe:any;
 
   constructor(public loadingController: LoadingController, private pruebaDeVidaService: PruebaDeVidaService,
-    private camara: Camera, private fotoPruebaDeVidaService: FotoPruebaDeVidaService) { }
+    private camara: Camera, private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
+    private platform: Platform)
+  {
+    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
+      if(this.constructor.name == "HomeVictimarioPage"){
+        navigator["app"].exitApp();
+      }
+    })
+  }
 
   ngOnInit() {
     this.cargarPruebasDeVida();

@@ -4,7 +4,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { NgForm } from '@angular/forms';
 import * as sha256 from 'js-sha256';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -16,9 +16,19 @@ export class LoginPage implements OnInit {
 
   loaderToShow: any;
 
+  //Back button
+  subscribe: any;
+
   constructor(private usuarioService: UsuarioService, private router: Router,
     public loadingController: LoadingController, public toastController: ToastController,
-    private storage: Storage) { }
+    private storage: Storage, private platform: Platform)
+  {
+    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
+      if (this.constructor.name == "LoginPage") {
+        navigator["app"].exitApp();
+      }
+    })
+  }
 
   ngOnInit() { }
 
@@ -64,7 +74,7 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  setUsuario(email: string){
+  setUsuario(email: string) {
     this.storage.set('persona', email);
   }
 

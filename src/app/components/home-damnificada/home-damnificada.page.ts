@@ -5,7 +5,7 @@ import { UbicacionService } from 'src/app/services/ubicacion.service';
 import { Router } from '@angular/router';
 import { BotonAntipanicoService } from 'src/app/services/boton-antipanico.service';
 import { Storage } from '@ionic/storage';
-import { LoadingController, ToastController, AlertController } from '@ionic/angular';
+import { LoadingController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
 import { BotonAntipanico } from 'src/app/models/boton-antipanico';
 
@@ -23,11 +23,21 @@ export class HomeDamnificadaPage implements OnInit {
   lon2: number;
   distancia: number;
 
+  //Back button
+  subscribe: any;
+
   constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
     private router: Router, private botonAntipanicoService: BotonAntipanicoService,
     private storage: Storage, public loadingController: LoadingController,
     private toastController: ToastController, private comunicacion: ComunicacionService,
-    private alertController: AlertController) { }
+    private alertController: AlertController, private platform: Platform) {
+    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
+      if (this.constructor.name == "HomeDamnificadaPage") {
+        navigator["app"].exitApp();
+      }
+    })
+
+  }
 
   ngOnInit() {
     this.getGeolocation();
