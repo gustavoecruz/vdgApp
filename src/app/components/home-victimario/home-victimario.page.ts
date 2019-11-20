@@ -4,6 +4,7 @@ import { LoadingController, Platform } from '@ionic/angular';
 import { PruebaDeVidaService } from 'src/app/services/prueba-de-vida.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FotoPruebaDeVidaService } from 'src/app/services/foto-prueba-de-vida.service';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @Component({
   selector: 'app-home-victimario',
@@ -19,17 +20,27 @@ export class HomeVictimarioPage implements OnInit {
   pruebaSeleccionada: PruebaDeVida;
 
   //Back button
-  subscribe:any;
+  subscribe: any;
 
   constructor(public loadingController: LoadingController, private pruebaDeVidaService: PruebaDeVidaService,
     private camara: Camera, private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
-    private platform: Platform)
+    private platform: Platform, private backgroundMode: BackgroundMode)
   {
     this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
-      if(this.constructor.name == "HomeVictimarioPage"){
+      if (this.constructor.name == "HomeVictimarioPage") {
         navigator["app"].exitApp();
       }
-    })
+    });
+    //BACKGROUND
+    this.backgroundMode.enable();
+    this.backgroundMode.disableBatteryOptimizations();
+    this.backgroundMode.disableWebViewOptimizations();
+    //LLAMAR A FUNCION DE UBICACION Y CONSULTA DE NOTIFICACION EN INTERVAL
+    this.backgroundMode.on('activate').subscribe(() => {
+      console.log("Entro a activate");
+      setInterval(() => console.log("interval"), 5000);
+    });
+
   }
 
   ngOnInit() {

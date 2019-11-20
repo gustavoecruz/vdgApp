@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { IonicStorageModule } from '@ionic/storage';
     RouterModule
   ],
   providers: [
+    BackgroundMode,
     StatusBar,
     SplashScreen,
     Geolocation,
