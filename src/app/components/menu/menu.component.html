@@ -5,8 +5,8 @@
         </ion-toolbar>
     </ion-header>
     <ion-content>
-        <ion-list>
-            <ion-menu-toggle *ngFor="let item of lista">
+        <ion-list *ngIf="usuario.rolDeUsuario == 'DAMNIFICADA'">
+            <ion-menu-toggle *ngFor="let item of listaDamnificada">
                 <ion-item routerLink={{item.url}}>
                     <ion-icon slot="start" name={{item.icon}}></ion-icon>
                     <ion-label>{{item.titulo}}</ion-label>

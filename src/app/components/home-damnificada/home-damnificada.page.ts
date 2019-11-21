@@ -30,14 +30,7 @@ export class HomeDamnificadaPage implements OnInit {
     private router: Router, private botonAntipanicoService: BotonAntipanicoService,
     private storage: Storage, public loadingController: LoadingController,
     private toastController: ToastController, private comunicacion: ComunicacionService,
-    private alertController: AlertController, private platform: Platform) {
-    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
-      if (this.constructor.name == "HomeDamnificadaPage") {
-        navigator["app"].exitApp();
-      }
-    })
-
-  }
+    private alertController: AlertController, private platform: Platform) {}
 
   ngOnInit() {
     this.getGeolocation();

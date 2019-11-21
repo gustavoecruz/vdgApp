@@ -14,6 +14,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
   ],
   providers: [
     BackgroundMode,
+    LocalNotifications,
     StatusBar,
     SplashScreen,
     Geolocation,

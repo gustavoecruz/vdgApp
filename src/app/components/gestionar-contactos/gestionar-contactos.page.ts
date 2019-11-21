@@ -22,8 +22,7 @@ export class GestionarContactosPage implements OnInit {
     private comunicacionService: ComunicacionService, private alertController: AlertController) {
     }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   //EVENTO IONIC QUE EJECUTA METODO CADA VEZ QUE SE INGRESA A LA PAG
   ionViewDidEnter(){

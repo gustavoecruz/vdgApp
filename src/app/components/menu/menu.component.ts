@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from 'src/app/models/usuario';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-menu',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  lista= [
+  usuario: Usuario = new Usuario;
+
+  listaDamnificada= [
     {
       titulo:'Localizar victimario',
       icon: 'locate',
@@ -20,8 +24,12 @@ export class MenuComponent implements OnInit {
     }
   ];
   
-  constructor() { }
+  constructor(private storage: Storage) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.storage.get('usuario').then((user) => {
+      this.usuario = user as Usuario;
+    })
+  }
 
 }

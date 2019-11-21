@@ -6,6 +6,7 @@ import * as sha256 from 'js-sha256';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
 
 @Component({
   selector: 'app-login',
@@ -19,15 +20,15 @@ export class LoginPage implements OnInit {
   //Back button
   subscribe: any;
 
+  usuarioStorage: Usuario = new Usuario;
+
   constructor(private usuarioService: UsuarioService, private router: Router,
     public loadingController: LoadingController, public toastController: ToastController,
-    private storage: Storage, private platform: Platform)
+    private storage: Storage, private platform: Platform, private comunicacion: ComunicacionService)
   {
-    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
-      if (this.constructor.name == "LoginPage") {
-        navigator["app"].exitApp();
-      }
-    })
+    this.platform.backButton.subscribe(() => {
+      navigator['app'].exitApp();
+    });
   }
 
   ngOnInit() { }
@@ -40,15 +41,21 @@ export class LoginPage implements OnInit {
       this.usuarioService.login(mail, contrasena)
         .subscribe(rolUsuario => {
           this.loadingController.dismiss();
+          this.usuarioStorage.email = mail;
+          this.usuarioStorage.rolDeUsuario = rolUsuario as string;
           console.log("DATOS ROL: " + rolUsuario);
           this.setUsuario(mail);
           if (rolUsuario == "VICTIMARIO") {
             this.router.navigate(["/home-victimario"]);
             localStorage.setItem('emailUsuario', mail);
+            this.storage.set('usuario', this.usuarioStorage);
+            this.comunicacion.enviarEmailUsuario(mail);
           }
           else if (rolUsuario == "DAMNIFICADA") {
             this.router.navigate(["/home-damnificada"]);
             localStorage.setItem('emailUsuario', mail);
+            this.storage.set('usuario', this.usuarioStorage);
+            this.comunicacion.enviarEmailUsuario(mail);
           }
           else
             this.loginInvalido();
