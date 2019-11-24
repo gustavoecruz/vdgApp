@@ -9,6 +9,7 @@ import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native
 import { ComunicacionService } from './services/comunicacion/comunicacion.service';
 import { UbicacionService } from './services/ubicacion.service';
 import { NotificacionService } from './services/notificacion.service';
+import { Notificacion } from './models/notificacion';
 
 @Component({
   selector: 'app-root',
@@ -76,7 +77,23 @@ export class AppComponent {
   }
 
   tengoNotificaciones() {
-
+    this.notificacionService.getNotificacionesNoVistas(this.comunicacion.emailUsuario).subscribe(res => {
+      var notificacionesNoVistas = res as Notificacion[];
+      var i: number;
+      for(i = 0; i<notificacionesNoVistas.length; i++){
+        this.mostrarNotificacion(notificacionesNoVistas[i].descripcion);
+      }
+    })
   }
 
+  mostrarNotificacion(mensaje){
+    this.localNotifications.schedule({
+      title: 'Hola ' + this.comunicacion.emailUsuario,
+      text: mensaje,
+      trigger: {
+        in: 1,
+        unit: ELocalNotificationTriggerUnit.SECOND,
+      },
+    });
+  }
 }
