@@ -31,7 +31,17 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+            if(localStorage.getItem('emailUsuario') != ''){
+              this.comunicacion.enviarEmailUsuario(localStorage.getItem('emailUsuario'));
+              if(localStorage.getItem('rolUsuario')=="DAMNIFICADA"){
+                this.router.navigate(["/home-damnificada"]);
+              }
+              else{
+                this.router.navigate(["/home-victimario"]);
+              }
+            }
+   }
 
   ingresar(usuarioForm: NgForm) {
     if (usuarioForm.valid) {
@@ -48,12 +58,14 @@ export class LoginPage implements OnInit {
           if (rolUsuario == "VICTIMARIO") {
             this.router.navigate(["/home-victimario"]);
             localStorage.setItem('emailUsuario', mail);
+            localStorage.setItem('rolUsuario', "VICTIMARIO")
             this.storage.set('usuario', this.usuarioStorage);
             this.comunicacion.enviarEmailUsuario(mail);
           }
           else if (rolUsuario == "DAMNIFICADA") {
             this.router.navigate(["/home-damnificada"]);
             localStorage.setItem('emailUsuario', mail);
+            localStorage.setItem('rolUsuario', "DAMNIFICADA")
             this.storage.set('usuario', this.usuarioStorage);
             this.comunicacion.enviarEmailUsuario(mail);
           }

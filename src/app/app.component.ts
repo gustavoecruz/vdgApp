@@ -55,14 +55,6 @@ export class AppComponent {
   //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
   notificar() {
     if (this.comunicacion.emailUsuario != "") {
-      this.localNotifications.schedule({
-        title: 'Hola' + this.comunicacion.emailUsuario,
-        text: 'Multi ILocalNotification 2',
-        trigger: {
-          in: 1,
-          unit: ELocalNotificationTriggerUnit.SECOND,
-        },
-      });
       this.enviarUbicacion();
       this.tengoNotificaciones();
     }
