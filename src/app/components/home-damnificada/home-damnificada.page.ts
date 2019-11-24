@@ -19,9 +19,6 @@ export class HomeDamnificadaPage implements OnInit {
 
   lat: number;
   lon: number;
-  lat2: number;
-  lon2: number;
-  distancia: number;
 
   //Back button
   subscribe: any;
@@ -33,13 +30,7 @@ export class HomeDamnificadaPage implements OnInit {
     private alertController: AlertController, private platform: Platform) {}
 
   ngOnInit() {
-    this.getGeolocation();
     this.watchGeolocation();
-
-    
-  }
-
-  localizacionSegundoPlano() {
   }
 
   getGeolocation() {
@@ -58,18 +49,12 @@ export class HomeDamnificadaPage implements OnInit {
   watchGeolocation() {
     let watch = this.geolocation.watchPosition({ enableHighAccuracy: true });
     watch.subscribe((data) => {
-      this.lat2 = data.coords.latitude;
-      this.lon2 = data.coords.longitude;
-      this.distancia = data.coords.accuracy;
+      this.lat = data.coords.latitude;
+      this.lon = data.coords.longitude;
+      this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
+        this.lat, this.lon).subscribe(res => {
+        });
     });
-  }
-
-  calculateDistance(lon1, lon2, lat1, lat2) {
-    let p = 0.017453292519943295;
-    let c = Math.cos;
-    let a = 0.5 - c((lat1 - lat2) * p) / 2 + c(lat2 * p) * c((lat1) * p) * (1 - c(((lon1 - lon2) * p))) / 2;
-    let dis = (12742 * Math.asin(Math.sqrt(a)));
-    return Math.trunc(dis * 1000);
   }
 
   localizarVictimario() {
