@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-
+import { Geoposition } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 import { ComunicacionService } from './services/comunicacion/comunicacion.service';
+import { UbicacionService } from './services/ubicacion.service';
+import { NotificacionService } from './services/notificacion.service';
 
 @Component({
   selector: 'app-root',
@@ -19,13 +22,17 @@ export class AppComponent {
     private statusBar: StatusBar,
     private backgroundMode: BackgroundMode,
     private localNotifications: LocalNotifications,
-    private comunicacion: ComunicacionService
+    private comunicacion: ComunicacionService,
+    private ubicacionService: UbicacionService,
+    private notificacionService: NotificacionService,
+    public geolocation: Geolocation
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      setInterval(() => this.notificar(), 10000);
       this.statusBar.styleDefault();
       this.statusBar.backgroundColorByHexString('#ffffff');
       this.splashScreen.hide();
@@ -44,6 +51,7 @@ export class AppComponent {
     });
   }
 
+  //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
   notificar() {
     if (this.comunicacion.emailUsuario != "") {
       this.localNotifications.schedule({
@@ -54,7 +62,21 @@ export class AppComponent {
           unit: ELocalNotificationTriggerUnit.SECOND,
         },
       });
+      this.enviarUbicacion();
+      this.tengoNotificaciones();
     }
+
+  }
+
+  enviarUbicacion() {
+    this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
+      this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
+        geoposition.coords.latitude, geoposition.coords.longitude).subscribe(res => { console.log(res); });
+    });
+  }
+
+  tengoNotificaciones() {
+
   }
 
 }

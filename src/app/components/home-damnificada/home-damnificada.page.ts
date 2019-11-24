@@ -35,6 +35,8 @@ export class HomeDamnificadaPage implements OnInit {
   ngOnInit() {
     this.getGeolocation();
     this.watchGeolocation();
+
+    
   }
 
   localizacionSegundoPlano() {
@@ -45,8 +47,11 @@ export class HomeDamnificadaPage implements OnInit {
     this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
       this.lat = geoposition.coords.latitude;
       this.lon = geoposition.coords.longitude;
+      this.ubicacionService.getUbicacionesRestriccion(1).subscribe(res => {console.log(res);});
       console.log("TENGO LAS COORD");
       console.log("LAT " + this.lat);
+      this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
+        this.lat, this.lon);
     });
   }
 

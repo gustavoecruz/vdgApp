@@ -16,6 +16,7 @@ export class UbicacionService {
     loginInfo["latitud"] = latitud;
     loginInfo["longitud"] = longitud; 
     console.log("HAGO EL POST lat: "+latitud+"    lon: "+longitud+"   email: "+email);
+    console.log(this.http.post(this.URL_API +"/postUbi/"+email, loginInfo));
     return this.http.post(this.URL_API +"/postUbi/"+email, loginInfo);
   }
 
