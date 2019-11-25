@@ -25,11 +25,7 @@ export class LoginPage implements OnInit {
   constructor(private usuarioService: UsuarioService, private router: Router,
     public loadingController: LoadingController, public toastController: ToastController,
     private storage: Storage, private platform: Platform, private comunicacion: ComunicacionService)
-  {
-    this.platform.backButton.subscribe(() => {
-      navigator['app'].exitApp();
-    });
-  }
+  { }
 
   ngOnInit() {
             if(localStorage.getItem('emailUsuario') != ''){

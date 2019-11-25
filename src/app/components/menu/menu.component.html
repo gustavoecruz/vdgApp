@@ -14,5 +14,12 @@
             </ion-menu-toggle>
         </ion-list>
     </ion-content>
+    <ion-footer>
+        <ion-toolbar>
+            <ion-button expand="full" shape="round" (click)="cerrarSesion()">
+                <ion-icon slot="start" name="close"></ion-icon>Cerrar sesión
+            </ion-button>
+        </ion-toolbar>
+    </ion-footer>
 </ion-menu>
 <ion-router-outlet id="principal"></ion-router-outlet>

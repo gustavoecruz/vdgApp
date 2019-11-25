@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario';
 import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @Component({
   selector: 'app-menu',
@@ -24,12 +26,22 @@ export class MenuComponent implements OnInit {
     }
   ];
   
-  constructor(private storage: Storage) { }
+  constructor(
+    private storage: Storage,
+    private router: Router,
+    private backgroundMode: BackgroundMode) { }
 
   ngOnInit() {
     this.storage.get('usuario').then((user) => {
       this.usuario = user as Usuario;
     })
+  }
+
+  cerrarSesion(){
+    localStorage.setItem('emailUsuario', '');
+    this.storage.set('usuario', new Usuario);
+    this.backgroundMode.disable();
+    this.router.navigate(["/login"]);
   }
 
 }

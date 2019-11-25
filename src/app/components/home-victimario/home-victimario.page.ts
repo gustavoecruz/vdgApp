@@ -6,6 +6,9 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FotoPruebaDeVidaService } from 'src/app/services/foto-prueba-de-vida.service';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
+import { Usuario } from 'src/app/models/usuario';
+import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-home-victimario',
@@ -23,9 +26,16 @@ export class HomeVictimarioPage implements OnInit {
   //Back button
   subscribe: any;
 
-  constructor(public loadingController: LoadingController, private pruebaDeVidaService: PruebaDeVidaService,
-    private camara: Camera, private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
-    private platform: Platform, private backgroundMode: BackgroundMode,private localNotifications: LocalNotifications)
+  constructor(
+    public loadingController: LoadingController,
+    private pruebaDeVidaService: PruebaDeVidaService,
+    private camara: Camera,
+    private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
+    private router: Router,
+    private storage: Storage,
+    private platform: Platform,
+    private backgroundMode: BackgroundMode,
+    private localNotifications: LocalNotifications)
   {}
 
   ngOnInit() {
@@ -81,6 +91,13 @@ export class HomeVictimarioPage implements OnInit {
     }).then((res) => {
       res.present();
     });
+  }
+
+  cerrarSesion(){
+    localStorage.setItem('emailUsuario', '');
+    this.storage.set('usuario', new Usuario);
+    this.backgroundMode.disable();
+    this.router.navigate(["/login"]);
   }
 
 }
