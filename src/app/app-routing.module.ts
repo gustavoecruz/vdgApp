@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'gestionar-contactos', loadChildren: './components/gestionar-contactos/gestionar-contactos.module#GestionarContactosPageModule' },
   { path: 'agregar-contacto', loadChildren: './components/agregar-contacto/agregar-contacto.module#AgregarContactoPageModule' },  { path: 'home-victimario', loadChildren: './components/home-victimario/home-victimario.module#HomeVictimarioPageModule' },
   { path: 'pruebas-de-vida', loadChildren: './components/pruebas-de-vida/pruebas-de-vida.module#PruebasDeVidaPageModule' },
+  { path: 'notificaciones', loadChildren: './components/notificaciones/notificaciones.module#NotificacionesPageModule' },
 
 
 ];

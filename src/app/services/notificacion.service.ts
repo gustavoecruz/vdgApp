@@ -13,4 +13,9 @@ export class NotificacionService {
   getNotificacionesNoVistas(email: String){
     return this.http.get(this.URL_API + '/getNoVistas/' + email);
   }
+
+  getNoificaciones(email: string){
+    return this.http.get(this.URL_API + "/App/" + email);
+  }
+
 }

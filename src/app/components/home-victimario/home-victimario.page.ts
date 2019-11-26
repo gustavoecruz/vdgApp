@@ -39,7 +39,6 @@ export class HomeVictimarioPage implements OnInit {
   {}
 
   ngOnInit() {
-    this.cargarPruebasDeVida();
   }
 
   cargarPruebasDeVida() {

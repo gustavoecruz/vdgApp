@@ -39,46 +39,51 @@ export class AppComponent {
       this.splashScreen.hide();
       this.backgroundMode.enable();
       //nuevo
-      this.backgroundMode.disableBatteryOptimizations();
-      this.backgroundMode.disableWebViewOptimizations();
+            this.backgroundMode.disableBatteryOptimizations();
+           this.backgroundMode.disableWebViewOptimizations();
       this.backgroundMode.on('activate').subscribe(() => {
         this.backgroundMode.disableBatteryOptimizations();
         this.backgroundMode.disableWebViewOptimizations();
         this.backgroundMode.overrideBackButton();
         this.backgroundMode.excludeFromTaskList();
-        this.backgroundMode.setDefaults({ silent: true });
-        setInterval(() => this.notificar(), 10000);
+        //        this.backgroundMode.setDefaults({ silent: true });
+        setInterval(() => this.notificar(), 600000);
       });
     });
   }
 
   //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
   notificar() {
+    console.log(this.comunicacion.emailUsuario);
     if (this.comunicacion.emailUsuario != "") {
       this.enviarUbicacion();
       this.tengoNotificaciones();
     }
-
   }
 
   enviarUbicacion() {
     this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
       this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
-        geoposition.coords.latitude, geoposition.coords.longitude).subscribe(res => { console.log(res); });
+        geoposition.coords.latitude, geoposition.coords.longitude)
+        .subscribe(res => {
+          console.log(res);
+        });
     });
   }
 
   tengoNotificaciones() {
-    this.notificacionService.getNotificacionesNoVistas(this.comunicacion.emailUsuario).subscribe(res => {
-      var notificacionesNoVistas = res as Notificacion[];
-      var i: number;
-      for(i = 0; i<notificacionesNoVistas.length; i++){
-        this.mostrarNotificacion(notificacionesNoVistas[i].descripcion);
-      }
-    })
+    this.notificacionService.getNotificacionesNoVistas(this.comunicacion.emailUsuario)
+      .subscribe(res => {
+        console.log(res);
+        var notificacionesNoVistas = res as Notificacion[];
+        var i: number;
+        for (i = 0; i < notificacionesNoVistas.length; i++) {
+          this.mostrarNotificacion(notificacionesNoVistas[i].descripcion);
+        }
+      });
   }
 
-  mostrarNotificacion(mensaje){
+  mostrarNotificacion(mensaje) {
     this.localNotifications.schedule({
       title: 'Hola ' + this.comunicacion.emailUsuario,
       text: mensaje,

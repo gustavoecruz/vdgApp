@@ -23,6 +23,11 @@ export class MenuComponent implements OnInit {
       titulo:'Gestionar contactos',
       icon: 'contacts',
       url: '/gestionar-contactos'
+    },
+    {
+      titulo:'Notificaciones',
+      icon: 'notifications',
+      url: '/notificaciones'
     }
   ];
   
