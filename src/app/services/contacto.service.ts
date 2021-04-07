@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Contacto } from '../models/contacto';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactoService {
 
-  readonly URL_API = 'https://vdg-back.herokuapp.com/Contacto';
+  readonly URL_API = environment.apiUrl+'Contacto';
 
   constructor(private http: HttpClient) { }
 

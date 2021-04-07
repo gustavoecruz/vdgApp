@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UbicacionDTO } from '../models/ubicacion-dto';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UbicacionService {
 
-  readonly URL_API = 'https://vdg-back.herokuapp.com/Ubicacion';
+  readonly URL_API = environment.apiUrl+'Ubicacion';
 
   constructor(private http: HttpClient) { }
 

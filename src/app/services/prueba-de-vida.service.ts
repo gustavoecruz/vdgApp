@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PruebaDeVidaService {
 
-  readonly URL_API = "https://vdg-back.herokuapp.com/PruebaDeVida";
+  readonly URL_API = environment.apiUrl+"PruebaDeVida";
 
   constructor(private http: HttpClient) { }
 
