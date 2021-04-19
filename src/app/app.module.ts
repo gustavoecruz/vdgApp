@@ -15,6 +15,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { ForegroundService } from '@ionic-native/foreground-service/ngx';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     SplashScreen,
     Geolocation,
     Camera,
+    ForegroundService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

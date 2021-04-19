@@ -30,7 +30,7 @@ export class HomeDamnificadaPage implements OnInit {
     private alertController: AlertController, private platform: Platform) {}
 
   ngOnInit() {
-    this.watchGeolocation();
+    //this.watchGeolocation();
   }
 
   getGeolocation() {

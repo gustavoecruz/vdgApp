@@ -10,6 +10,9 @@ import { ComunicacionService } from './services/comunicacion/comunicacion.servic
 import { UbicacionService } from './services/ubicacion.service';
 import { NotificacionService } from './services/notificacion.service';
 import { Notificacion } from './models/notificacion';
+import { ForegroundService } from '@ionic-native/foreground-service/ngx';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-root',
@@ -26,30 +29,75 @@ export class AppComponent {
     private comunicacion: ComunicacionService,
     private ubicacionService: UbicacionService,
     private notificacionService: NotificacionService,
-    public geolocation: Geolocation
+    public geolocation: Geolocation,
+    private foregroundService: ForegroundService,
+    private http: HttpClient
   ) {
     this.initializeApp();
   }
 
+
+  private latitud: any;
+  private longitud: any;
+  private contador = 0;
+  readonly URL_API = 'https://vdg-back.herokuapp.com/'+'Ubicacion';
+  private email = "damnificada2@damnificada.com"
+
+
+
+
   initializeApp() {
     this.platform.ready().then(() => {
-      setInterval(() => this.notificar(), 10000);
+
+      this.foregroundService.start('GPS Running', 'Background Service');
+      //setInterval(() => this.notificar(), 20000);
       this.statusBar.styleDefault();
       this.statusBar.backgroundColorByHexString('#ffffff');
       this.splashScreen.hide();
-      this.backgroundMode.enable();
-      //nuevo
-            this.backgroundMode.disableBatteryOptimizations();
-           this.backgroundMode.disableWebViewOptimizations();
+
       this.backgroundMode.on('activate').subscribe(() => {
-        this.backgroundMode.disableBatteryOptimizations();
+        console.log("Background activado");
         this.backgroundMode.disableWebViewOptimizations();
-        this.backgroundMode.overrideBackButton();
-        this.backgroundMode.excludeFromTaskList();
-        //        this.backgroundMode.setDefaults({ silent: true });
-        setInterval(() => this.notificar(), 600000);
+        let watch = this.geolocation.watchPosition({ enableHighAccuracy: true });
+        watch.subscribe((data) => {
+          this.latitud = data.coords.latitude;
+          this.longitud = data.coords.longitude;
+        });
+        //setInterval(() => this.hagoElPost(), 10000);
+        setInterval(() => console.log("Hora "+(new Date()).toUTCString()), 10000);
+
       });
+
+
+      this.backgroundMode.disableBatteryOptimizations();
+      this.backgroundMode.overrideBackButton();
+      this.backgroundMode.excludeFromTaskList();
+      //setInterval(() => this.notificarDos(), 10000);
+      this.backgroundMode.enable();
+
+
     });
+  }
+
+  hagoElPost(){
+    console.log("Interval de 10 segs");
+    const loginInfo = {};
+    loginInfo["latitud"] = this.latitud;
+    loginInfo["longitud"] = this.longitud; 
+    console.log("HAGO EL POST lat: "+this.latitud+"    lon: "+this.longitud+"   email: "+this.email);
+    console.log(this.http.post(this.URL_API +"/postUbi/"+this.email, loginInfo));
+    return this.http.post(this.URL_API +"/postUbi/"+this.email, loginInfo);
+  }
+
+
+  //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
+  notificarDos() {
+    console.log("INTERVAL DEL BACKGROUND CORRIENDO");
+    if (this.comunicacion.emailUsuario != "") {
+      console.log("LLAMO A ENVIAR UBICACION");
+      this.enviarUbicacion();
+      
+    }
   }
 
   //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
@@ -62,13 +110,24 @@ export class AppComponent {
   }
 
   enviarUbicacion() {
+    console.log("AHORA ENVIO LA UBICACION");
+    this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
+      this.latitud, this.longitud)
+      .subscribe(res => {
+        console.log("Ya me devolvio el RES");
+        console.log(res);
+      });
+    /*
     this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
+      console.log("Ya tengo el position actual");
       this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
         geoposition.coords.latitude, geoposition.coords.longitude)
         .subscribe(res => {
+          console.log("Ya me devolvio el RES");
           console.log(res);
         });
     });
+    */
   }
 
   tengoNotificaciones() {
